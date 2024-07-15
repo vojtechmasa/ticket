@@ -1,0 +1,46 @@
+{
+  "name": "ticket",
+  "version": "1.0.0",
+  "description": "The ticket service for augustin6 project",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/augustin6/ticket.git"
+  },
+  "keywords": [
+    "augustin6",
+    "ticket"
+  ],
+  "author": "Vojtech Masa",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://gitlab.com/augustin6/ticket/issues"
+  },
+  "homepage": "https://gitlab.com/augustin6/ticket#readme",
+  "dependencies": {
+    "@apollo/federation": "^0.20.4",
+    "apollo-server-express": "^2.18.2",
+    "apollo-server-testing": "^2.18.1",
+    "body-parser": "^1.19.0",
+    "cloud-config-client": "^1.5.2",
+    "cls-hooked": "^4.2.2",
+    "express": "^4.17.1",
+    "file-type": "^15.0.1",
+    "graphql": "^15.3.0",
+    "graphql-request": "^3.3.0",
+    "graphql-scalars": "^1.4.1",
+    "node-datetime": "^2.1.2",
+    "nodemon": "^2.0.4",
+    "pg": "^8.3.3",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
+  }
+}
