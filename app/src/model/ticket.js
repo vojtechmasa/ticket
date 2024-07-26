@@ -58,7 +58,13 @@ exports.createTicketModel = (user) => ({
         where: sqlFilter,
         offset: pageSpec.first,
         limit: pageSpec.count,
-        order: orders
+        order: orders,
+        include: [
+          {
+            model: store.Profile,
+            as: 'author'
+          }
+        ]
       }
     )
     const totalCount = await store.Ticket.count()
@@ -90,20 +96,24 @@ exports.createTicketModel = (user) => ({
     const ticket = await findById(id)
 
     if (watcherIds) {
+      console.log(`Watchers: ${JSON.stringify(watcherIds)}`)
       ticket.setWatchers(watcherIds)
     }
     if (attachmentIds) {
+      console.log(`Attachments: ${JSON.stringify(attachmentIds)}`)
       ticket.setAttachments(attachmentIds)
     }
     if (imageIds) {
+      console.log(`Images: ${JSON.stringify(imageIds)}`)
       ticket.setImages(imageIds)
     }
     if (commentIds) {
+      console.log(`comments: ${JSON.stringify(commentIds)}`)
       ticket.setComments(commentIds)
     }
 
     checkTicketCreateOrUpdatePrivileges(user, ticket)
-    return ticket
+    return ticket.reload()
   },
   deleteById: async (id) => {
     const ticket = await findById(id)

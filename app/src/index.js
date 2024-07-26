@@ -118,6 +118,11 @@ async function createApp() {
     }
 
     const fileName = req.get(resourceFileNameHeaderName)
+    if (!fileName) {
+      console.log(`Missing or incorrect ${resourceFileNameHeaderName} header`)
+      return error(res, 400, 10, "USER")
+    }
+
     const size = req.socket.bytesRead
     const attachment = await AttachmentModel.create(mime, req.body, size, fileName)
 
@@ -150,6 +155,11 @@ async function createApp() {
     }
 
     const fileName = req.get(resourceFileNameHeaderName)
+    if (!fileName) {
+      console.log(`Missing or incorrect ${resourceFileNameHeaderName} header`)
+      return error(res, 400, 10, "USER")
+    }
+
     const size = req.socket.bytesRead
     const attachment = await ImageModel.create(mime, req.body, size, fileName)
 

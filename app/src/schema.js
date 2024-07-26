@@ -50,6 +50,7 @@ module.exports = gql`
   }
   
   type TicketResource {
+   id: ID!
    fileName: String!
    title: String
    size: Int!

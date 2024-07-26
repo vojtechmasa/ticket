@@ -21,9 +21,9 @@ exports.create = async (contentType, blob, size, fileName) => {
 exports.createImageModel = (user) => ({
   findAllByTicketId: async (ticketId) => {
     const store = await storePromise
-    return store.Attachment.findAll({
+    return store.Image.findAll({
       include: [
-        {model: store.Image, where: {id: ticketId}}
+        {model: store.Ticket, where: {id: ticketId}, as: 'tickets'}
       ]
     })
   }

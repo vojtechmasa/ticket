@@ -219,7 +219,7 @@ async function createStore() {
 
   //  This creates the tables if they don't exist (and does nothing if they already exist).
   // TODO remove force after development phase
-  await sequelize.sync({force: true})
+  await sequelize.sync()
 
   return {
     Ticket,
