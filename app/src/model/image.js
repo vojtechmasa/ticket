@@ -23,7 +23,7 @@ exports.createImageModel = (user) => ({
     const store = await storePromise
     return store.Image.findAll({
       include: [
-        {model: store.Ticket, where: {id: ticketId}, as: 'tickets'}
+        {model: store.Ticket, where: {id: ticketId}}
       ]
     })
   }

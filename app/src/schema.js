@@ -74,7 +74,6 @@ module.exports = gql`
   
   input TicketInput {
     id: ID
-    ticketId: ID
     title: String
     description: String
     state: TicketState
@@ -93,6 +92,7 @@ module.exports = gql`
   input TicketCommentInput {
     id: ID
     authorId: ID
+    ticketId: ID
     body: String
   }
   
@@ -125,6 +125,7 @@ module.exports = gql`
   
   input TicketCommentFilter {
   createdAt: TicketDateIntervalInput
+  ticketId: ID
   ticketAssigneeId: ID
   ticketAuthorId: ID
   }

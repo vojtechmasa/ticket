@@ -165,6 +165,7 @@ async function createStore() {
     tableName: 'Comments'
   })
 
+  //Ticket associations
   Room.hasMany(Ticket, {
     foreignKey: {
       allowNull: false,
@@ -205,17 +206,57 @@ async function createStore() {
     }
   })
 
+  Ticket.hasMany(Image, {
+    foreignKey: {
+      name: 'ticketId'
+    }
+  })
+  Image.belongsTo(Ticket, {
+    foreignKey: {
+      name: 'ticketId'
+    }
+  })
+
+  Ticket.hasMany(Attachment, {
+    foreignKey: {
+      name: 'ticketId'
+    }
+  })
+  Attachment.belongsTo(Ticket, {
+    foreignKey: {
+      name: 'ticketId'
+    }
+  })
+
+  Ticket.hasMany(Comment, {
+    foreignKey: {
+      name: 'ticketId'
+    }
+  })
+  Comment.belongsTo(Ticket, {
+    foreignKey: {
+      name: 'ticketId'
+    }
+  })
+
+
   Profile.belongsToMany(Ticket, {through: 'TicketWatchers', as: 'tickets', foreignKey: 'profileId'})
   Ticket.belongsToMany(Profile, {through: 'TicketWatchers', as: 'watchers', foreignKey: 'ticketId'})
 
-  Image.belongsToMany(Ticket, {through: 'TicketImages', as: 'tickets'})
-  Ticket.belongsToMany(Image, {through: 'TicketImages', as: 'images'})
-
-  Attachment.belongsToMany(Ticket, {through: 'TicketAttachments', as: 'tickets'})
-  Ticket.belongsToMany(Attachment, {through: 'TicketAttachments', as: 'attachments'})
-
-  Comment.belongsToMany(Ticket, {through: 'TicketComments', as: 'tickets'})
-  Ticket.belongsToMany(Comment, {through: 'TicketComments', as: 'comments'})
+  //Comment association
+  Profile.hasMany(Comment, {
+    foreignKey: {
+      allowNull: false,
+      name: 'authorId'
+    }
+  })
+  Comment.belongsTo(Profile, {
+    as: 'author',
+    foreignKey: {
+      allowNull: false,
+      name: 'authorId'
+    }
+  })
 
   //  This creates the tables if they don't exist (and does nothing if they already exist).
   // TODO remove force after development phase

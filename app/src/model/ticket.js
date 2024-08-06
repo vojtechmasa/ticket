@@ -97,14 +97,20 @@ exports.createTicketModel = (user) => ({
 
     if (watcherIds) {
       console.log(`Watchers: ${JSON.stringify(watcherIds)}`)
-      ticket.setWatchers(watcherIds)
+      const watchers = await store.Profile.findAll({where: {id: {[Op.in]: watcherIds}}})
+      watchers.forEach(w => w.addTicket(id))
+      ticket.setWatchers(watchers)
     }
     if (attachmentIds) {
       console.log(`Attachments: ${JSON.stringify(attachmentIds)}`)
+      const attachments = await store.Attachment.findAll({where: {id: {[Op.in]: attachmentIds}}})
+      attachments.forEach(a => a.setTicket(id))
       ticket.setAttachments(attachmentIds)
     }
     if (imageIds) {
       console.log(`Images: ${JSON.stringify(imageIds)}`)
+      const images = await store.Image.findAll({where: {id: {[Op.in]: imageIds}}})
+      images.forEach(a => a.setTicket(id))
       ticket.setImages(imageIds)
     }
     if (commentIds) {
@@ -113,7 +119,7 @@ exports.createTicketModel = (user) => ({
     }
 
     checkTicketCreateOrUpdatePrivileges(user, ticket)
-    return ticket.reload()
+    return ticket
   },
   deleteById: async (id) => {
     const ticket = await findById(id)

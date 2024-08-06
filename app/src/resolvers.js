@@ -17,7 +17,12 @@ module.exports = {
     createOrUpdateTicketById: (_, {ticketInput}, {Ticket}) =>
       Ticket.createOrUpdateById(ticketInput),
     deleteTicketById: (_, {id}, {Ticket}) =>
-      Ticket.deleteById(id)
+      Ticket.deleteById(id),
+    createOrUpdateTicketCommentById: (_, {ticketCommentInput}, {Comment}) =>
+      Comment.createOrUpdateById(ticketCommentInput),
+    deleteTicketCommentById: (_, {id}, {TicketComment}) =>
+      TicketComment.delete
+
   },
   Ticket: {
     assignee: (ticket, _, {Profile}) =>
@@ -30,6 +35,12 @@ module.exports = {
       Image.findAllByTicketId(ticket.id),
     comments: (ticket, _, {Comment}) =>
       Comment.findAllByTicketId(ticket.id),
+  },
+  TicketComment: {
+    author: (comment, _, {Profile}) =>
+      Profile.findById(comment.authorId),
+    ticket: (comment, _, {Ticket}) =>
+      Ticket.findById(comment.ticketId)
   },
 
   EmailAddress: EmailAddressResolver,

@@ -9,13 +9,18 @@ exports.createCommentModel = (user) => ({
     checkTicketReadPrivileges(user, ticket)
     return ticket
   },
-  findByFilter: async ({createdAt, ticketAssigneeId, ticketAuthorId}) => {
+  findByFilter: async ({createdAt, ticketId, ticketAssigneeId, ticketAuthorId}) => {
     const sqlFilter = {}
     if (createdAt) {
       sqlFilter.createdAt = {[Op.between]: [createdAt.from, createdAt.to]}
     }
 
+    const store = await storePromise
     const ticketTableName = store.Ticket.tableName
+
+    if (ticketId) {
+      sqlFilter.TicketId = ticketId
+    }
 
     if (ticketAssigneeId) {
       sqlFilter[`${ticketTableName}.assigneeId`] = ticketAssigneeId
@@ -25,7 +30,6 @@ exports.createCommentModel = (user) => ({
       sqlFilter[`${ticketTableName}.authorId`] = ticketAuthorId
     }
 
-    const store = await storePromise
     const tickets = store.Comment.findAll(
       {
         where: sqlFilter,
@@ -37,7 +41,7 @@ exports.createCommentModel = (user) => ({
     tickets.forEach(ticket => checkTicketReadPrivileges(ticket))
     return tickets
   },
-  createOrUpdateById: async ({id, ...ticketCommentInput}) => {
+  createOrUpdateById: async ({id, ticketId, ...ticketCommentInput}) => {
     const store = await storePromise
 
     let comment
@@ -52,7 +56,11 @@ exports.createCommentModel = (user) => ({
       )
       comment = await findById(id)
     } else {
-      comment = await store.Ticket.create(ticketCommentInput)
+      comment = await store.Comment.create(ticketCommentInput)
+    }
+
+    if (ticketId) {
+      comment.setTicket(ticketId)
     }
 
     checkTicketCreateOrUpdatePrivileges(user, comment)

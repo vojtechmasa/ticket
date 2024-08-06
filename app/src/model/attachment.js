@@ -23,7 +23,7 @@ exports.createAttachmentModel = (user) => ({
     const store = await storePromise
     return store.Attachment.findAll({
       include: [
-        {model: store.Ticket, where: {id: ticketId}, as: 'tickets'}
+        {model: store.Ticket, where: {id: ticketId}}
       ]
     })
   }
